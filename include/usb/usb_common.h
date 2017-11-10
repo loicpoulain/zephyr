@@ -100,6 +100,7 @@
 /* Sub-classes */
 #define ACM_SUBCLASS			0x02
 #define CDC_ECM_SUBCLASS		0x06
+#define CDC_EEM_SUBCLASS		0x0c
 #define CDC_NCM_SUBCLASS		0x0d
 #define BOOT_INTERFACE_SUBCLASS		0x01
 #define SCSI_TRANSPARENT_SUBCLASS	0x06
@@ -120,6 +121,7 @@
 #define ACM_VENDOR_PROTOCOL		0xFF
 /* Misc protocols */
 #define MISC_ETHERNET_PROTOCOL		0x01
+#define EEM_PROTOCOL			0x07
 
 /** Standard Device Descriptor */
 struct usb_device_descriptor {

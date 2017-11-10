@@ -77,6 +77,16 @@ struct dev_common_descriptor {
 		struct usb_ep_descriptor if1_1_out_ep;
 	} __packed cdc_ecm_cfg;
 #endif
+#ifdef CONFIG_USB_DEVICE_NETWORK_EEM
+	struct usb_cdc_eem_config {
+#ifdef CONFIG_USB_COMPOSITE_DEVICE
+		struct usb_association_descriptor iad;
+#endif
+		struct usb_if_descriptor if0;
+		struct usb_ep_descriptor if0_in_ep;
+		struct usb_ep_descriptor if0_out_ep;
+	} __packed cdc_eem_cfg;
+#endif
 #ifdef CONFIG_USB_MASS_STORAGE
 	struct usb_mass_config {
 		struct usb_if_descriptor if0;
@@ -378,6 +388,60 @@ static struct dev_common_descriptor common_desc = {
 		},
 	},
 #endif
+#ifdef CONFIG_USB_DEVICE_NETWORK_EEM
+	.cdc_eem_cfg = {
+#ifdef CONFIG_USB_COMPOSITE_DEVICE
+		.iad = {
+			.bLength = sizeof(struct usb_association_descriptor),
+			.bDescriptorType = USB_ASSOCIATION_DESC,
+			.bFirstInterface = FIRST_IFACE_CDC_EEM,
+			.bInterfaceCount = 0x01,
+			.bFunctionClass = COMMUNICATION_DEVICE_CLASS,
+			.bFunctionSubClass = CDC_EEM_SUBCLASS,
+			.bFunctionProtocol = 0,
+			.iFunction = 0,
+		},
+#endif
+
+		/* Interface descriptor 0 */
+		/* CDC Communication interface */
+		.if0 = {
+			.bLength = sizeof(struct usb_if_descriptor),
+			.bDescriptorType = USB_INTERFACE_DESC,
+			.bInterfaceNumber = FIRST_IFACE_CDC_EEM,
+			.bAlternateSetting = 0,
+			.bNumEndpoints = 2,
+			.bInterfaceClass = COMMUNICATION_DEVICE_CLASS,
+			.bInterfaceSubClass = CDC_EEM_SUBCLASS,
+			.bInterfaceProtocol = EEM_PROTOCOL,
+			.iInterface = 0,
+		},
+
+		/* Data Endpoint IN */
+		.if0_in_ep = {
+			.bLength = sizeof(struct usb_ep_descriptor),
+			.bDescriptorType = USB_ENDPOINT_DESC,
+			.bEndpointAddress = CONFIG_CDC_EEM_IN_EP_ADDR,
+			.bmAttributes = USB_DC_EP_BULK,
+			.wMaxPacketSize =
+				sys_cpu_to_le16(
+				CONFIG_CDC_EEM_BULK_EP_MPS),
+			.bInterval = 0x00,
+		},
+
+		/* Data Endpoint OUT */
+		.if0_out_ep = {
+			.bLength = sizeof(struct usb_ep_descriptor),
+			.bDescriptorType = USB_ENDPOINT_DESC,
+			.bEndpointAddress = CONFIG_CDC_EEM_OUT_EP_ADDR,
+			.bmAttributes = USB_DC_EP_BULK,
+			.wMaxPacketSize =
+				sys_cpu_to_le16(
+				CONFIG_CDC_EEM_BULK_EP_MPS),
+			.bInterval = 0x00,
+		},
+	},
+#endif /* CONFIG_USB_DEVICE_NETWORK_EEM */
 #ifdef CONFIG_USB_MASS_STORAGE
 	.mass_cfg = {
 		/* Interface descriptor */

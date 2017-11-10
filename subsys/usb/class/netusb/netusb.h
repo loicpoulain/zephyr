@@ -24,3 +24,8 @@ int try_write(u8_t ep, u8_t *data, u16_t len);
 #define NETUSB_IFACE_IDX FIRST_IFACE_CDC_ECM
 struct netusb_function ecm_function;
 #endif
+
+#ifdef CONFIG_USB_DEVICE_NETWORK_EEM
+#define NETUSB_IFACE_IDX FIRST_IFACE_CDC_EEM
+struct netusb_function eem_function;
+#endif

@@ -103,6 +103,8 @@ static void setup_ipv4(struct net_if *iface)
 #endif
 	struct in_addr addr;
 
+	SYS_LOG_ERR("SETUP IPV4");
+
 	if (sizeof(CONFIG_NET_APP_MY_IPV4_ADDR) == 1) {
 		/* Empty address, skip setting ANY address in this case */
 		return;
@@ -115,10 +117,10 @@ static void setup_ipv4(struct net_if *iface)
 
 	net_if_ipv4_addr_add(iface, &addr, NET_ADDR_MANUAL, 0);
 
-#if defined(CONFIG_NET_DEBUG_APP) && CONFIG_SYS_LOG_NET_LEVEL > 1
-	NET_INFO("IPv4 address: %s",
+//#if defined(CONFIG_NET_DEBUG_APP) && CONFIG_SYS_LOG_NET_LEVEL > 1
+	NET_ERR("IPv4 address: %s",
 		 net_addr_ntop(AF_INET, &addr, hr_addr, NET_IPV4_ADDR_LEN));
-#endif
+//#endif
 
 	if (sizeof(CONFIG_NET_APP_MY_IPV4_NETMASK) > 1) {
 		/* If not empty */

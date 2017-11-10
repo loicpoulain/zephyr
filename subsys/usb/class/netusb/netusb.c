@@ -32,7 +32,7 @@ static int netusb_send(struct net_if *iface, struct net_pkt *pkt)
 {
 	int ret;
 
-	SYS_LOG_DBG("Send pkt, len %u", net_pkt_get_len(pkt));
+//	SYS_LOG_ERR("Send pkt, len %u", net_pkt_get_len(pkt));
 
 	if (!netusb.configured) {
 		SYS_LOG_ERR("Unconfigured device, conf %u", netusb.configured);
@@ -50,7 +50,7 @@ static int netusb_send(struct net_if *iface, struct net_pkt *pkt)
 
 void netusb_recv(struct net_pkt *pkt)
 {
-	SYS_LOG_DBG("Recv pkt, len %u", net_pkt_get_len(pkt));
+//	SYS_LOG_ERR("Recv pkt, len %u", net_pkt_get_len(pkt));
 
 	if (net_recv_data(netusb.iface, pkt)) {
 		SYS_LOG_ERR("Queueing packet %p failed", pkt);
@@ -226,7 +226,7 @@ static void netusb_init(struct net_if *iface)
 	static u8_t mac[6] = { 0x00, 0x00, 0x5E, 0x00, 0x53, 0x00 };
 	int ret;
 
-	SYS_LOG_DBG("netusb device initialization");
+	SYS_LOG_ERR("netusb device initialization");
 
 	SYS_LOG_DBG("iface %p", iface);
 
@@ -240,6 +240,8 @@ static void netusb_init(struct net_if *iface)
 
 #if defined(CONFIG_USB_DEVICE_NETWORK_ECM)
 	netusb.func = &ecm_function;
+#elif defined(CONFIG_USB_DEVICE_NETWORK_EEM)
+	netusb.func = &eem_function;
 #endif
 
 	netusb_config.endpoint = netusb.func->ep;

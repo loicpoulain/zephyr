@@ -11,11 +11,16 @@ zephyr_library_include_directories(
   $ENV{ZEPHYR_BASE}/subsys/net/ip
   )
 
-zephyr_library_sources(
-  netusb.c
-  )
+ zephyr_library_sources(
+ netusb.c
+ )
 
 zephyr_library_sources_ifdef(
   CONFIG_USB_DEVICE_NETWORK_ECM
   function_ecm.c
   )
+
+ zephyr_library_sources_ifdef(
+   CONFIG_USB_DEVICE_NETWORK_EEM
+   function_eem.c
+   )
