@@ -1,0 +1,45 @@
+#
+# Copyright (c) 2018, I-SENSE group of ICCS
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+---
+title: Inventek eS-WiFi WiFi module
+id: inventek,eswifi
+version: 0.1
+
+description: >
+    This binding gives the base representation of esWiFi WiFi module
+
+inherits:
+    !include spi-device.yaml
+
+properties:
+    compatible:
+      constraint: "inventek,eswifi"
+
+    resetn-gpios:
+      type: compound
+      category: required
+      generation: define, use-prop-name
+
+    csn-gpios:
+      type: compound
+      category: required
+      generation: define, use-prop-name
+
+    data-gpios:
+      type: compound
+      category: required
+      generation: define, use-prop-name
+
+    wakeup-gpios:
+      type: compound
+      category: optional
+      generation: define, use-prop-name
+
+    boot0-gpios:
+      type: compound
+      category: optional
+      generation: define, use-prop-name
+...
